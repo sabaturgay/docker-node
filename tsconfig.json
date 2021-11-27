@@ -1,0 +1,70 @@
+{
+	"compilerOptions": {
+		"allowJs": true,
+		"checkJs": false,
+		"allowSyntheticDefaultImports": true,
+		"forceConsistentCasingInFileNames": true,
+		"noImplicitReturns": true,
+		"strict": true,
+		"noUnusedLocals": true,
+		"skipLibCheck": true,
+		"resolveJsonModule": true,
+		"jsx": "react-native",
+		"lib": [
+			"esnext",
+			"dom"
+		],
+		"moduleResolution": "node",
+		"module": "CommonJS",
+		"target": "ES5",
+		"declaration": true,
+		"outDir": "dist",
+		"emitDeclarationOnly": true,
+		"esModuleInterop": true,
+		"experimentalDecorators": true,
+		"isolatedModules": true,
+		"baseUrl": "./",
+		"paths": {
+			"@serverless/*": [
+				"./src/serverless/*"
+			],
+			"@serverless": [
+				"./src/serverless"
+			],
+			"@utils": [
+				"./src/utils"
+			],
+			"@utils/*": [
+				"./src/utils/*"
+			],
+			"@constants": [
+				"./src/constants"
+			],
+			"@assets/*": [
+				"./src/assets/*"
+			],
+			"@context/*": [
+				"./src/context/*"
+			],
+			"@context": [
+				"./src/context"
+			],
+			"@type": [
+				"./src/type"
+			],
+			"@root": [
+				"./src"
+			],
+			"@root/*": [
+				"./src/*"
+			]
+		}
+	},
+	"include": [
+		"src/**/*"
+	],
+	"exclude": [
+		"node_modules",
+		"src/run/**/*"
+	]
+}

@@ -1,0 +1,43 @@
+{
+  "name": "nativestarterserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev --project tsconfig.json --no-notify -r tsconfig-paths/register --respawn --transpile-only src/index.ts",
+    "type-check": "tsc --noEmit",
+    "build": "rm -rf dist && yarn build:js",
+    "build:js": "babel src -d dist --extensions \".js,.jsx,.ts,.tsx\" --copy-files",
+    "postinstall": "pal g && prisma generate"
+  },
+  "dependencies": {
+    "@graphql-tools/merge": "6.2.14",
+    "@graphql-tools/schema": "8.0.2",
+    "@graphql-tools/utils": "8.3.0",
+    "@paljs/plugins": "4.0.0",
+    "@prisma/client": "3.5.0",
+    "@sentry/node": "6.12.0",
+    "@sentry/tracing": "6.12.0",
+    "apollo-server-express": "3.1.2",
+    "colay": "0.0.60",
+    "cors": "2.8.5",
+    "dotenv": "10.0.0",
+    "expo-server-sdk": "3.6.0",
+    "express": "4.17.1",
+    "graphql": "15.5.1",
+    "graphql-middleware": "6.0.10",
+    "jsonwebtoken": "8.5.1",
+    "lodash.get": "4.4.2",
+    "mongodb": "4.0.1",
+    "node-fetch": "3.1.0",
+    "qs": "6.10.1",
+    "stripe": "8.167.0"
+  },
+  "devDependencies": {
+    "@paljs/cli": "4.0.12",
+    "colay-dev": "0.0.22",
+    "prisma": "3.5.0",
+    "typescript": "4.5.2"
+  },
+  "private": true
+}
