@@ -24,6 +24,7 @@ export const scheduler = {
       task,
     )
     schedulerManager.addSimpleIntervalJob(job)
+    return job
   },
   cron: (cron: string, callback: () => any) => {
     id += 1
