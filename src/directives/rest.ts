@@ -2,7 +2,7 @@ import fs from 'fs'
 import get from 'lodash.get'
 import gql from 'graphql-tag'
 import path from 'path'
-
+import { params } from '@serverless'
 // import fetch from 'node-fetch'
 import {
   MapperKind,
@@ -36,7 +36,7 @@ function restDirectiveTransformer(schema, directiveName) {
           }
           return fetch(url, {
             headers: [
-              ['authorization', `Bearer ${process.env[auth]}`],
+              ['authorization', `Bearer ${params[auth]}`],
               ...headers,
             ],
             method,

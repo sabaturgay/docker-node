@@ -1,6 +1,7 @@
 import { MongoClient } from 'mongodb'
+import { params } from '@serverless'
 // Connection URI
-const URI = process.env.DATABASE_URL
+const URI = params.DATABASE_URL
 // Create a new MongoClient
 export const dbClient = new MongoClient(URI)
 // let dbRef = {

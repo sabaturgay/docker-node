@@ -5,6 +5,7 @@ import { IS_DEV } from '@serverless'
 import * as Sentry from './sentry'
 import * as db from './db'
 import * as expo from './expo'
+import * as firebase from './firebase'
 import * as prisma from './prisma'
 import * as stripe from './stripe'
 
@@ -14,6 +15,7 @@ const StaticContext = {
   ...stripe,
   ...db,
   ...Sentry,
+  ...firebase,
   IS_DEV,
 }
 
