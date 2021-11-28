@@ -9,23 +9,23 @@ const initialValue = JSON.parse(
 )
 
 type RowData = any
-type QueryData = any
+type WhereData = any
 type ListenerCallback = (data: any[]) => void
-type Listener = { query: QueryData, callback: ListenerCallback }
+type Listener = { where: WhereData, callback: ListenerCallback }
 type Operation<T extends any = RowData> = {
   data: T;
 }
 
 type OperationWithOptionalWhere = {
   data: RowData;
-  where?: QueryData;
+  where?: WhereData;
 }
 
 type OperationWithWhere = Operation & {
-  where: QueryData;
+  where: WhereData;
 }
 type OperationWithOnlyWhere = {
-  where: QueryData;
+  where: WhereData;
 }
 
 type TTLOption = {
@@ -51,6 +51,9 @@ const dataManager = {
       })
     },
     check: () => {
+      if (dataManager.ttlManager.records.length === 0) {
+        return
+      }
       const {
         ttlManager,
         records,
@@ -58,15 +61,16 @@ const dataManager = {
         deleteListeners,
       } = dataManager
       const deletedRowDataList = [] as RowData[]
-      ttlManager.records.forEach((record) => {
+      ttlManager.records.forEach((record, index) => {
         const {
           data,
           expiredAt,
         } = record
         const now = Date.now()
         if (now > expiredAt) {
-          const index = records.findIndex((row) => row === data)
-          const [deletedRowData] = records.splice(index, 1)
+          ttlManager.records.splice(index, 1)
+          const rowDataIndex = records.findIndex((row) => row === data)
+          const [deletedRowData] = records.splice(rowDataIndex, 1)
           deletedRowDataList.push(deletedRowData)
         }
       })
@@ -79,8 +83,8 @@ const dataManager = {
   updateListeners: [] as Listener[],
   deleteListeners: [] as Listener[],
   callListeners: (listeners: Listener[], data: RowData[]) => {
-    listeners.forEach(({ query, callback }) => {
-      const queryResult = query(data, query)
+    listeners.forEach(({ where, callback }) => {
+      const queryResult = query(data, where)
       if (queryResult.length > 0) {
         callback(queryResult)
       }
@@ -120,6 +124,7 @@ const dataManager = {
       dataManager.ttlManager.add(data, ttl)
     }
     callListeners(createListeners, [data])
+    return data
   },
   createMany: async (operation: Operation<RowData[]> & TTLOption) => {
     const {
@@ -139,6 +144,7 @@ const dataManager = {
       })
     }
     callListeners(createListeners, dataList)
+    return dataList
   },
   update: async (operation: OperationWithWhere) => {
     const {
@@ -231,27 +237,27 @@ const dataManager = {
     const { records } = dataManager
     return query(records, where)
   },
-  onInsert: async (query: QueryData, callback: ListenerCallback) => {
+  onCreate: async (where: WhereData, callback: ListenerCallback) => {
     const { createListeners } = dataManager
-    const listener = { query, callback }
+    const listener = { where, callback }
     createListeners.push(listener)
     return () => {
       const index = createListeners.findIndex((row) => row === listener)
       createListeners.splice(index, 1)
     }
   },
-  onUpdate: async (query: QueryData, callback: ListenerCallback) => {
+  onUpdate: async (where: WhereData, callback: ListenerCallback) => {
     const { updateListeners } = dataManager
-    const listener = { query, callback }
+    const listener = { where, callback }
     updateListeners.push(listener)
     return () => {
       const index = updateListeners.findIndex((row) => row === listener)
       updateListeners.splice(index, 1)
     }
   },
-  onDelete: async (query: QueryData, callback: ListenerCallback) => {
+  onDelete: async (where: WhereData, callback: ListenerCallback) => {
     const { deleteListeners } = dataManager
-    const listener = { query, callback }
+    const listener = { where, callback }
     deleteListeners.push(listener)
     return () => {
       const index = deleteListeners.findIndex((row) => row === listener)
@@ -261,7 +267,7 @@ const dataManager = {
   // get
 } as const
 
-const query = (records: RowData[], queryData: QueryData): RowData[] => Query.query(
+const query = (records: RowData[], queryData: WhereData): RowData[] => Query.query(
   records,
   queryData,
 )

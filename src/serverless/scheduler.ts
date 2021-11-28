@@ -15,12 +15,14 @@ export const scheduler = {
     id += 1
     const task = new AsyncTask(
       `${id}`,
-      callback,
+      async () => {
+        await callback()
+      },
       (err: Error) => { console.error(err) },
     )
     const [intervalCount, intervalUnit] = interval.split(' ')
     const job = new SimpleIntervalJob(
-      { [intervalUnit]: intervalCount },
+      { [intervalUnit]: Number.parseFloat(intervalCount) },
       task,
     )
     schedulerManager.addSimpleIntervalJob(job)

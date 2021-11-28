@@ -3,8 +3,10 @@ import { graphqlServer } from './graphqlServer'
 import {
   api,
   app,
+  data,
   guest,
   params,
+  scheduler,
 } from '@serverless'
 
 graphqlServer.start().then(() => {
@@ -38,3 +40,25 @@ app.listen(
   params.PORT,
   () => console.log(`Listening on: http://localhost:${params.PORT}`),
 )
+
+data.create({
+  data: {
+    name: 'TTL Data',
+    value: 'TTL DATA',
+  },
+  ttl: 10 * 1000,
+})
+data.onDelete({}, (data) => {
+  // console.log('data deleted', data)
+})
+
+scheduler.every('2 seconds', async () => {
+  const result = await data.findMany({ where: {} })
+  // console.log('RES', result)
+  await data.create({
+    data: {
+      name: 'test',
+      value: 'test',
+    },
+  })
+})
