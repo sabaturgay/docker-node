@@ -1,8 +1,7 @@
-import Stripe from 'stripe';
+import Stripe from 'stripe'
 import { params } from '@serverless'
 
-const API_KEY = params.STRIPE_API_KEY
-
-export const stripe = new Stripe(API_KEY, {
-  apiVersion: '2020-08-27',
-});
+export const stripe = new Stripe(
+  params.STRIPE_API_KEY,
+  { apiVersion: '2020-08-27' },
+)

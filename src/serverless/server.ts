@@ -1,8 +1,8 @@
 /* eslint-disable import/first */
 require('dotenv').config()
 
-import express from 'express'
 import cors from 'cors'
+import express from 'express'
 
 export const app = express()
 
@@ -22,7 +22,6 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Headers', '*')
   next()
 })
-
 
 export const api = apiRouter
 export const guest = guestRouter

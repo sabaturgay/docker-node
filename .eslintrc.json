@@ -1,0 +1,12 @@
+{
+	"extends": [
+		"./node_modules/colay-dev/eslint"
+	],
+	"parserOptions": {
+		"project": "./tsconfig.json"
+	},
+	"rules": {
+		"import/order": 0,
+		"@typescript-eslint/no-use-before-define": 0
+	}
+}

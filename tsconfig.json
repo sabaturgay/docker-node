@@ -57,6 +57,12 @@
 			],
 			"@root/*": [
 				"./src/*"
+			],
+			"colay": [
+				"./node_modules/colay/lib"
+			],
+			"colay/*": [
+				"./node_modules/colay/lib/*"
 			]
 		}
 	},

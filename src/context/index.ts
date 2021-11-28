@@ -1,17 +1,12 @@
-import * as expo from './expo'
-import * as stripe from './stripe'
-import * as db from './db'
-import * as prisma from './prisma'
+import { ContextFunction } from 'apollo-server-core'
+import { ExpressContext } from 'apollo-server-express'
+import { IS_DEV } from '@serverless'
+
 import * as Sentry from './sentry'
-import {
-  IS_DEV,
-} from '@serverless'
-import {
-    ContextFunction,
-} from 'apollo-server-core'
-import { 
-  ExpressContext,
-} from 'apollo-server-express'
+import * as db from './db'
+import * as expo from './expo'
+import * as prisma from './prisma'
+import * as stripe from './stripe'
 
 const StaticContext = {
   ...prisma,
@@ -22,14 +17,11 @@ const StaticContext = {
   IS_DEV,
 }
 
-
 export type Context = typeof StaticContext & {
   user?: any;
 }
 
-export const createContext: ContextFunction<ExpressContext, Context> = ({ req })=>  {
-  return {
-    ...StaticContext,
-    user: req.user,
-  }
-}
+export const createContext: ContextFunction<ExpressContext, Context> = ({ req }) => ({
+  ...StaticContext,
+  user: req.user,
+})

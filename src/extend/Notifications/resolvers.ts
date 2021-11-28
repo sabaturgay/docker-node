@@ -1,5 +1,9 @@
-import { Expo } from 'expo-server-sdk'
 import { Resolvers } from '@type'
+import {
+  Expo,
+  ExpoPushMessage,
+  ExpoPushTicket,
+} from 'expo-server-sdk'
 
 const resolvers: Resolvers = {
   Query: {
@@ -14,14 +18,14 @@ const resolvers: Resolvers = {
         pushTokens,
         message,
       } = args
-      const messages = []
-      for (const pushToken of pushTokens) {
+      const messages = [] as ExpoPushMessage[]
+      pushTokens.forEach((pushToken: string) => {
         // Each push token looks like ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]
 
         // Check that all your push tokens appear to be valid Expo push tokens
         if (!Expo.isExpoPushToken(pushToken)) {
           console.error(`Push token ${pushToken} is not a valid Expo push token`)
-          continue
+          return
         }
 
         // Construct a message (see https://docs.expo.io/push-notifications/sending-notifications/)
@@ -32,15 +36,15 @@ const resolvers: Resolvers = {
           // body: 'This is a test notification',
           // data: { withSome: 'data' },
         })
-      }
+      })
 
       const chunks = expo.chunkPushNotifications(messages)
-      const tickets = [];
+      const tickets = [] as ExpoPushTicket[]
       (async () => {
         // Send the chunks to the Expo push notification service. There are
         // different strategies you could use. A simple one is to send one chunk at a
         // time, which nicely spreads the load out over time:
-        for (const chunk of chunks) {
+        chunks.forEach(async (chunk) => {
           try {
             const ticketChunk = await expo.sendPushNotificationsAsync(chunk)
             console.log(ticketChunk)
@@ -52,7 +56,7 @@ const resolvers: Resolvers = {
           } catch (error) {
             console.error(error)
           }
-        }
+        })
       })()
       if (IS_DEV) {
         checkNotificationErrors(tickets, expo)
@@ -64,30 +68,32 @@ const resolvers: Resolvers = {
 export default resolvers
 
 // CHECK NOTIFICATIONS
-const checkNotificationErrors = (tickets: { id: string }[], expo) => {
-  const receiptIds = []
-  for (const ticket of tickets) {
+const checkNotificationErrors = (tickets: ExpoPushTicket[], expo: Expo) => {
+  const receiptIds = [] as string[]
+  tickets.forEach((ticket) => {
   // NOTE: Not all tickets have IDs; for example, tickets for notifications
   // that could not be enqueued will have error information and no receipt ID.
     if (ticket.id) {
       receiptIds.push(ticket.id)
     }
-  }
+  })
   const receiptIdChunks = expo.chunkPushNotificationReceiptIds(receiptIds);
   (async () => {
   // Like sending notifications, there are different strategies you could use
   // to retrieve batches of receipts from the Expo service.
-    for (const chunk of receiptIdChunks) {
+    receiptIdChunks.forEach(async (chunk) => {
       try {
         const receipts = await expo.getPushNotificationReceiptsAsync(chunk)
         console.log('RECEIPT', receipts)
 
         // The receipts specify whether Apple or Google successfully received the
         // notification and information about an error, if one occurred.
-        for (const receiptId in receipts) {
-          const { status, message, details } = receipts[receiptId]
+        Object.keys(receipts).forEach((receiptId) => {
+          const {
+            status, message, details,
+          } = receipts[receiptId]
           if (status === 'ok') {
-            continue
+            return
           } else if (status === 'error') {
             console.error(
               `There was an error sending a notification: ${message}`,
@@ -99,10 +105,10 @@ const checkNotificationErrors = (tickets: { id: string }[], expo) => {
               console.error(`The error code is ${details.error}`)
             }
           }
-        }
+        })
       } catch (error) {
         console.error(error)
       }
-    }
+    })
   })()
 }

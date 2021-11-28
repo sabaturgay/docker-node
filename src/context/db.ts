@@ -7,17 +7,9 @@ export const dbClient = new MongoClient(URI)
 //   current: null
 // }
 async function run() {
-  // try {
-  // Connect the client to the server
   await dbClient.connect()
-  // Establish and verify connection
   await dbClient.db('admin').command({ ping: 1 })
   console.log('Connected successfully to DB')
-  // }
-  // finally {
-  //   // Ensures that the client will close when you finish/error
-  //   await client.close();
-  // }
 }
 run().catch(console.dir)
 

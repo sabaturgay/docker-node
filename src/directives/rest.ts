@@ -1,9 +1,14 @@
-// import fetch from 'node-fetch'
+import fs from 'fs'
 import get from 'lodash.get'
 import gql from 'graphql-tag'
-import fs from 'fs'
 import path from 'path'
-import { mapSchema, getDirective, MapperKind } from '@graphql-tools/utils'
+
+// import fetch from 'node-fetch'
+import {
+  MapperKind,
+  getDirective,
+  mapSchema,
+} from '@graphql-tools/utils'
 
 function restDirectiveTransformer(schema, directiveName) {
   return mapSchema(schema, {
@@ -51,8 +56,10 @@ function restDirectiveTransformer(schema, directiveName) {
               if (extractFromResponse) {
                 return get(data, extractFromResponse)
               }
-              fs.writeFileSync(path.join(__dirname,
-                'example.json'), JSON.stringify(data))
+              fs.writeFileSync(path.join(
+                __dirname,
+                'example.json',
+              ), JSON.stringify(data))
 
               return data
             })

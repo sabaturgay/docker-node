@@ -2,11 +2,10 @@ import fs from 'fs'
 import path from 'path'
 import * as R from 'colay/ramda'
 import Query from './query'
-import { scheduler } from  '../scheduler'
-
+import { scheduler } from '../scheduler'
 
 const initialValue = JSON.parse(
-  fs.readFileSync(path.join(__dirname, 'data.json'), 'utf8')
+  fs.readFileSync(path.join(__dirname, 'data.json'), 'utf8'),
 )
 
 type RowData = any
@@ -25,7 +24,7 @@ type OperationWithOptionalWhere = {
 type OperationWithWhere = Operation & {
   where: QueryData;
 }
-type OperationWithOnlyWhere ={
+type OperationWithOnlyWhere = {
   where: QueryData;
 }
 
@@ -62,19 +61,19 @@ const dataManager = {
       ttlManager.records.forEach((record) => {
         const {
           data,
-          expiredAt
+          expiredAt,
         } = record
-          const now = Date.now()
-          if (now > expiredAt) {
-            const index = records.findIndex(row => row === data)
-            const [deletedRowData] = records.splice(index, 1)
-            deletedRowDataList.push(deletedRowData)
-          }
+        const now = Date.now()
+        if (now > expiredAt) {
+          const index = records.findIndex((row) => row === data)
+          const [deletedRowData] = records.splice(index, 1)
+          deletedRowDataList.push(deletedRowData)
+        }
       })
       if (deletedRowDataList.length > 0) {
         callListeners(deleteListeners, deletedRowDataList)
       }
-    }
+    },
   },
   createListeners: [] as Listener[],
   updateListeners: [] as Listener[],
@@ -90,25 +89,25 @@ const dataManager = {
   upsert: async (operation: OperationWithWhere) => {
     const {
       data,
-      where
+      where,
     } = operation
     const {
       update,
       create,
     } = dataManager
     if (where) {
-      const result = update({data, where})
+      const result = update({ data, where })
       if (result) {
         return result
       }
     }
-    create({data})
+    create({ data })
     return false
   },
   create: async (operation: Operation & TTLOption) => {
     const {
       data: _data,
-      ttl
+      ttl,
     } = operation
     const {
       records,
@@ -125,7 +124,7 @@ const dataManager = {
   createMany: async (operation: Operation<RowData[]> & TTLOption) => {
     const {
       data: _dataList,
-      ttl
+      ttl,
     } = operation
     const {
       records,
@@ -155,7 +154,7 @@ const dataManager = {
     const data = R.clone(_data)
     const rowData = await findUnique(where)
     if (rowData) {
-      const index = records.findIndex(row => row === rowData)
+      const index = records.findIndex((row) => row === rowData)
       const newData = updateData(records, index, data)
       callListeners(updateListeners, [newData])
       return records[index]
@@ -177,7 +176,7 @@ const dataManager = {
     const rowDataList = await findMany(where)
     if (rowDataList) {
       const updatedRowDataList = rowDataList.map((rowData: RowData) => {
-        const index = records.findIndex(row => row === rowData)
+        const index = records.findIndex((row) => row === rowData)
         updateData(records, index, data)
         return records[index]
       })
@@ -187,9 +186,7 @@ const dataManager = {
     return false
   },
   delete: async (operation: OperationWithOnlyWhere) => {
-    const {
-      where,
-    } = operation
+    const { where } = operation
     const {
       records,
       findUnique,
@@ -198,7 +195,7 @@ const dataManager = {
     } = dataManager
     const rowData = await findUnique(where)
     if (rowData) {
-      const index = records.findIndex(row => row === rowData)
+      const index = records.findIndex((row) => row === rowData)
       const deletedRowData = records.splice(index, 1)[0]
       callListeners(deleteListeners, [deletedRowData])
       return deletedRowData
@@ -206,9 +203,7 @@ const dataManager = {
     return false
   },
   deleteMany: async (operation: OperationWithOnlyWhere) => {
-    const {
-      where,
-    } = operation
+    const { where } = operation
     const {
       records,
       findMany,
@@ -218,7 +213,7 @@ const dataManager = {
     const rowDataList = await findMany(where)
     if (rowDataList) {
       const deletedRowDataList = rowDataList.map((rowData) => {
-        const index = records.findIndex(row => row === rowData)
+        const index = records.findIndex((row) => row === rowData)
         return records.splice(index, 1)
       })
       callListeners(deleteListeners, deletedRowDataList)
@@ -227,53 +222,39 @@ const dataManager = {
     return false
   },
   findUnique: async (operation: OperationWithOnlyWhere) => {
-    const {
-      where
-    } = operation
-    const {
-      records
-    } = dataManager
+    const { where } = operation
+    const { records } = dataManager
     return query(records, where)?.[0]
   },
   findMany: async (operation: OperationWithOnlyWhere) => {
-    const {
-      where,
-    } = operation
-    const {
-      records
-    } = dataManager
+    const { where } = operation
+    const { records } = dataManager
     return query(records, where)
   },
   onInsert: async (query: QueryData, callback: ListenerCallback) => {
-    const {
-      createListeners,
-    } = dataManager
+    const { createListeners } = dataManager
     const listener = { query, callback }
     createListeners.push(listener)
     return () => {
-      const index = createListeners.findIndex(row => row === listener)
+      const index = createListeners.findIndex((row) => row === listener)
       createListeners.splice(index, 1)
     }
   },
   onUpdate: async (query: QueryData, callback: ListenerCallback) => {
-    const {
-      updateListeners,
-    } = dataManager
+    const { updateListeners } = dataManager
     const listener = { query, callback }
     updateListeners.push(listener)
     return () => {
-      const index = updateListeners.findIndex(row => row === listener)
+      const index = updateListeners.findIndex((row) => row === listener)
       updateListeners.splice(index, 1)
     }
   },
   onDelete: async (query: QueryData, callback: ListenerCallback) => {
-    const {
-      deleteListeners,
-    } = dataManager
+    const { deleteListeners } = dataManager
     const listener = { query, callback }
     deleteListeners.push(listener)
     return () => {
-      const index = deleteListeners.findIndex(row => row === listener)
+      const index = deleteListeners.findIndex((row) => row === listener)
       deleteListeners.splice(index, 1)
     }
   },
@@ -282,21 +263,23 @@ const dataManager = {
 
 const query = (records: RowData[], queryData: QueryData): RowData[] => Query.query(
   records,
-  queryData
-  )
+  queryData,
+)
 
-  const updateData = (records: RowData[], index: number, data: RowData) => {
-    const recordIsPlainObject = R.isPlainObject(records[index])
-    const dataIsPlainObject = R.isPlainObject(data)
-    if (recordIsPlainObject && dataIsPlainObject) {
-      Object.keys(data).forEach((key) => {
-        records[index][key] = data[key]  
-      })
-      // records[index] = { ...records[index], ...data }
-    } else {
-      records[index] = data
-    }
-    return records[index]
+const updateData = (records: RowData[], index: number, data: RowData) => {
+  const recordIsPlainObject = R.isPlainObject(records[index])
+  const dataIsPlainObject = R.isPlainObject(data)
+  if (recordIsPlainObject && dataIsPlainObject) {
+    Object.keys(data).forEach((key) => {
+      records[index][key] = data[key]
+    })
+    // records[index] = { ...records[index], ...data }
+  } else {
+    records[index] = data
   }
+  return records[index]
+}
 
-  scheduler.every(dataManager.ttlManager.interval, dataManager.ttlManager.check)
+scheduler.every(dataManager.ttlManager.interval, dataManager.ttlManager.check)
+
+export const data = dataManager
