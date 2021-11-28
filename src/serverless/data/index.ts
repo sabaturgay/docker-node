@@ -267,9 +267,9 @@ const dataManager = {
   // get
 } as const
 
-const query = (records: RowData[], queryData: WhereData): RowData[] => Query.query(
+const query = (records: RowData[], where: WhereData): RowData[] => Query.query(
   records,
-  queryData,
+  where,
 )
 
 const updateData = (records: RowData[], index: number, data: RowData) => {
