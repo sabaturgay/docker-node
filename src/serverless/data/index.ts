@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import * as R from 'colay/ramda'
-import Query from './query'
+import Query from './Query'
 import { scheduler } from '../scheduler'
 
 const initialValue = JSON.parse(

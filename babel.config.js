@@ -26,14 +26,14 @@ module.exports = function (api) {
             '.tsx',
           ],
           alias: {
-            '@server': './src/server',
+            '@serverless': './src/serverless',
             '@utils': './src/utils',
             '@root': './src',
             '@context': './src/context',
             '@constants': './src/constants',
             '@type': './src/type',
             '@assets': './src/assets',
-            'colay/ramda': 'colay/lib/ramda'
+            "colay": "colay/lib"
           },
         },
       ],

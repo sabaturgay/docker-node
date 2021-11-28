@@ -19,6 +19,7 @@
     "@prisma/client": "3.5.0",
     "@sentry/node": "6.12.0",
     "@sentry/tracing": "6.12.0",
+    "apollo-server-core": "3.5.0",
     "apollo-server-express": "3.1.2",
     "colay": "0.0.60",
     "cors": "2.8.5",
