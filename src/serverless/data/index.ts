@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import * as R from 'colay/ramda'
 import Query from './query'
-
+import { scheduler } from  '../scheduler'
 
 
 const initialValue = JSON.parse(
@@ -29,9 +29,53 @@ type OperationWithOnlyWhere ={
   where: QueryData;
 }
 
+type TTLOption = {
+  ttl?: number;
+}
+
+type TTLRowData = {
+  expiredAt: number;
+  data: RowData;
+}
 
 const dataManager = {
   records: initialValue as any[],
+  ttlManager: {
+    interval: '600 milliseconds',
+    records: [] as TTLRowData[],
+    add: (data: RowData, ttl: number) => {
+      const now = new Date()
+      const expiredAt = new Date(now.getTime() + ttl).getTime()
+      dataManager.ttlManager.records.push({
+        expiredAt,
+        data,
+      })
+    },
+    check: () => {
+      const {
+        ttlManager,
+        records,
+        callListeners,
+        deleteListeners,
+      } = dataManager
+      const deletedRowDataList = [] as RowData[]
+      ttlManager.records.forEach((record) => {
+        const {
+          data,
+          expiredAt
+        } = record
+          const now = Date.now()
+          if (now > expiredAt) {
+            const index = records.findIndex(row => row === data)
+            const [deletedRowData] = records.splice(index, 1)
+            deletedRowDataList.push(deletedRowData)
+          }
+      })
+      if (deletedRowDataList.length > 0) {
+        callListeners(deleteListeners, deletedRowDataList)
+      }
+    }
+  },
   createListeners: [] as Listener[],
   updateListeners: [] as Listener[],
   deleteListeners: [] as Listener[],
@@ -61,9 +105,10 @@ const dataManager = {
     create({data})
     return false
   },
-  create: async (operation: Operation) => {
+  create: async (operation: Operation & TTLOption) => {
     const {
       data: _data,
+      ttl
     } = operation
     const {
       records,
@@ -72,11 +117,15 @@ const dataManager = {
     } = dataManager
     const data = R.clone(_data)
     records.push(data)
+    if (ttl) {
+      dataManager.ttlManager.add(data, ttl)
+    }
     callListeners(createListeners, [data])
   },
-  createMany: async (operation: Operation<RowData[]>) => {
+  createMany: async (operation: Operation<RowData[]> & TTLOption) => {
     const {
       data: _dataList,
+      ttl
     } = operation
     const {
       records,
@@ -85,6 +134,11 @@ const dataManager = {
     } = dataManager
     const dataList = R.clone(_dataList)
     records.push(...dataList)
+    if (ttl) {
+      dataList.forEach((data) => {
+        dataManager.ttlManager.add(data, ttl)
+      })
+    }
     callListeners(createListeners, dataList)
   },
   update: async (operation: OperationWithWhere) => {
@@ -235,9 +289,14 @@ const query = (records: RowData[], queryData: QueryData): RowData[] => Query.que
     const recordIsPlainObject = R.isPlainObject(records[index])
     const dataIsPlainObject = R.isPlainObject(data)
     if (recordIsPlainObject && dataIsPlainObject) {
-      records[index] = { ...records[index], ...data }
+      Object.keys(data).forEach((key) => {
+        records[index][key] = data[key]  
+      })
+      // records[index] = { ...records[index], ...data }
     } else {
       records[index] = data
     }
     return records[index]
   }
+
+  scheduler.every(dataManager.ttlManager.interval, dataManager.ttlManager.check)
