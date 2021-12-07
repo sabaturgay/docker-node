@@ -1,6 +1,7 @@
 import { ContextFunction } from 'apollo-server-core'
 import { ExpressContext } from 'apollo-server-express'
 import { IS_DEV } from '@serverless'
+import { getUserRoles } from '@cloud'
 
 import * as Sentry from './sentry'
 import * as db from './db'
@@ -26,4 +27,5 @@ export type Context = typeof StaticContext & {
 export const createContext: ContextFunction<ExpressContext, Context> = ({ req }) => ({
   ...StaticContext,
   user: req.user,
+  userRoles: getUserRoles(req.user),
 })

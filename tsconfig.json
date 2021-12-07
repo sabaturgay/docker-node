@@ -52,6 +52,9 @@
 			"@type": [
 				"./src/type"
 			],
+			"@cloud": [
+				"./src/cloud"
+			],
 			"@root": [
 				"./src"
 			],

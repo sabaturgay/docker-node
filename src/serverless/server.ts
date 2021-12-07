@@ -13,7 +13,7 @@ app.use(express.json())
 const apiRouter = express.Router()
 const guestRouter = express.Router()
 
-app.use('/', apiRouter)
+app.use('/api', apiRouter)
 app.use('/guest', guestRouter)
 
 // Enable CORS for all methods

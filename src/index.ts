@@ -7,7 +7,8 @@ import {
   params,
 } from '@serverless'
 import './rest'
-// import { firebaseAdmin } from '@context/firebase'
+import { firebaseAdmin } from '@context/firebase'
+import { updateUserAttributes } from '@cloud'
 
 graphqlServer.start().then(() => {
   // @ts-ignore
@@ -18,11 +19,15 @@ if (params.AUTH_ENABLED) {
   api.use(async (req, res, next) => {
     const { headers: { authorization } } = req
     try {
-      const decodedToken = {}
-      // await firebaseAdmin
-      //   .auth()
-      //   .verifyIdToken((authorization ?? '').replace('Bearer ', ''))
-      req.user = decodedToken
+      const decodedToken = await firebaseAdmin
+        .auth()
+        .verifyIdToken((authorization ?? '').replace('Bearer ', ''))
+      const user = await firebaseAdmin
+        .auth()
+        .getUser(decodedToken.uid)
+      // await updateUserAttributes(user.uid, { roles: ['admin'] })
+      // console.log('DECODED_TOKEN', user)
+      req.user = user
     } catch (error) {
       console.error(error)
       next(new Error('Unauthorized'))

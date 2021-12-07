@@ -33,6 +33,7 @@ module.exports = function (api) {
             '@constants': './src/constants',
             '@type': './src/type',
             '@assets': './src/assets',
+            '@cloud': './src/cloud',
             "colay": "colay/lib"
           },
         },

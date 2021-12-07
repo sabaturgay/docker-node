@@ -44,6 +44,7 @@ Object.keys(StrategyMap).forEach((strategyName) => {
     )
     return authenticate(req, res)
   })
+
   guest.get(`/auth-${strategyName}-callback`, (req, res) => {
     const { state } = req.query
     const authenticate = passport.authenticate(

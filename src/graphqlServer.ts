@@ -10,7 +10,7 @@ import extendResolvers from './extend/resolvers'
 import extendTypeDefs from './extend/typeDefs'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { mergeTypeDefs } from '@graphql-tools/merge'
-
+import * as R from 'colay/ramda'
 import * as directives from './directives'
 
 import { Context, createContext } from './context'
@@ -44,7 +44,35 @@ const middleware = async (
   return resolve(root, args, context, info)
 }
 
-schema = applyMiddleware(schema, middleware)
+const AUTH_PATHS = { Query: { findManyPost: { roles: ['admin'] } } }
+
+const authMiddleware = async (
+  resolve,
+  root,
+  args,
+  context: Context,
+  info: GraphQLResolveInfo,
+) => {
+  const {
+    key,
+    typename,
+  } = info.path
+  const pathRoles = AUTH_PATHS[typename]?.[key]?.roles
+  if (pathRoles) {
+    const { userRoles } = context
+    if (R.intersection(pathRoles, userRoles).length === 0) {
+      throw new Error(`Unauthorized access to ${typename}.${key}. Only ${pathRoles} are allowed`)
+    }
+  }
+
+  return resolve(root, args, context, info)
+}
+
+schema = applyMiddleware(
+  schema,
+  middleware,
+  authMiddleware,
+)
 
 export const graphqlServer = new ApolloServer({
   schema,
