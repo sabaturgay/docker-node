@@ -5,10 +5,12 @@ import {
   app,
   guest,
   params,
+  data,
+  scheduler,
 } from '@serverless'
 import './rest'
 import { firebaseAdmin } from '@context/firebase'
-import { updateUserAttributes } from '@cloud'
+// import { updateUserAttributes } from '@cloud'
 
 graphqlServer.start().then(() => {
   // @ts-ignore
@@ -50,6 +52,10 @@ app.listen(
   params.PORT,
   () => console.log(`Listening on: http://localhost:${params.PORT}`),
 )
+
+// scheduler.every('5 seconds', async () => {
+//   await data.create({ data: { body: { hello: 'world' }, tags: ['new'] } })
+// })
 
 // data.create({
 //   data: {
