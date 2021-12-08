@@ -79,7 +79,9 @@ function makeEnum(x) { return x; }
 exports.Prisma.DataItemScalarFieldEnum = makeEnum({
   id: 'id',
   body: 'body',
-  tags: 'tags'
+  tags: 'tags',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 });
 
 exports.Prisma.SortOrder = makeEnum({

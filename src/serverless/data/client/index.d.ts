@@ -20,6 +20,8 @@ export type DataItem = {
   id: string
   body: Prisma.JsonValue
   tags: string[]
+  createdAt: Date
+  updatedAt: Date
 }
 
 
@@ -694,32 +696,44 @@ export namespace Prisma {
 
   export type DataItemMinAggregateOutputType = {
     id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type DataItemMaxAggregateOutputType = {
     id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type DataItemCountAggregateOutputType = {
     id: number
     body: number
     tags: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
   export type DataItemMinAggregateInputType = {
     id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type DataItemMaxAggregateInputType = {
     id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type DataItemCountAggregateInputType = {
     id?: true
     body?: true
     tags?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -805,6 +819,8 @@ export namespace Prisma {
     id: string
     body: JsonValue
     tags: string[]
+    createdAt: Date
+    updatedAt: Date
     _count: DataItemCountAggregateOutputType | null
     _min: DataItemMinAggregateOutputType | null
     _max: DataItemMaxAggregateOutputType | null
@@ -828,6 +844,8 @@ export namespace Prisma {
     id?: boolean
     body?: boolean
     tags?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
   export type DataItemGetPayload<
@@ -1466,7 +1484,9 @@ export namespace Prisma {
   export const DataItemScalarFieldEnum: {
     id: 'id',
     body: 'body',
-    tags: 'tags'
+    tags: 'tags',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type DataItemScalarFieldEnum = (typeof DataItemScalarFieldEnum)[keyof typeof DataItemScalarFieldEnum]
@@ -1500,12 +1520,16 @@ export namespace Prisma {
     id?: StringFilter | string
     body?: JsonFilter
     tags?: StringNullableListFilter
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
   }
 
   export type DataItemOrderByWithRelationInput = {
     id?: SortOrder
     body?: SortOrder
     tags?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type DataItemWhereUniqueInput = {
@@ -1516,6 +1540,8 @@ export namespace Prisma {
     id?: SortOrder
     body?: SortOrder
     tags?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: DataItemCountOrderByAggregateInput
     _max?: DataItemMaxOrderByAggregateInput
     _min?: DataItemMinOrderByAggregateInput
@@ -1528,43 +1554,59 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter | string
     body?: JsonWithAggregatesFilter
     tags?: StringNullableListFilter
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
 
   export type DataItemCreateInput = {
     id?: string
     body: InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
     tags?: DataItemCreatetagsInput | Enumerable<string>
   }
 
   export type DataItemUncheckedCreateInput = {
     id?: string
     body: InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
     tags?: DataItemCreatetagsInput | Enumerable<string>
   }
 
   export type DataItemUpdateInput = {
     body?: InputJsonValue | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: DataItemUpdatetagsInput | Enumerable<string>
   }
 
   export type DataItemUncheckedUpdateInput = {
     body?: InputJsonValue | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: DataItemUpdatetagsInput | Enumerable<string>
   }
 
   export type DataItemCreateManyInput = {
     id?: string
     body: InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
     tags?: DataItemCreateManytagsInput | Enumerable<string>
   }
 
   export type DataItemUpdateManyMutationInput = {
     body?: InputJsonValue | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: DataItemUpdatetagsInput | Enumerable<string>
   }
 
   export type DataItemUncheckedUpdateManyInput = {
     body?: InputJsonValue | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: DataItemUpdatetagsInput | Enumerable<string>
   }
 
@@ -1602,18 +1644,35 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type DateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
+  }
+
   export type DataItemCountOrderByAggregateInput = {
     id?: SortOrder
     body?: SortOrder
     tags?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type DataItemMaxOrderByAggregateInput = {
     id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type DataItemMinOrderByAggregateInput = {
     id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type StringWithAggregatesFilter = {
@@ -1648,8 +1707,26 @@ export namespace Prisma {
     _max?: NestedJsonFilter
   }
 
+  export type DateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
+  }
+
   export type DataItemCreatetagsInput = {
     set: Enumerable<string>
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
   export type DataItemUpdatetagsInput = {
@@ -1673,6 +1750,17 @@ export namespace Prisma {
     startsWith?: string
     endsWith?: string
     not?: NestedStringFilter | string
+  }
+
+  export type NestedDateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
   }
 
   export type NestedStringWithAggregatesFilter = {
@@ -1712,6 +1800,20 @@ export namespace Prisma {
   export type NestedJsonFilterBase = {
     equals?: InputJsonValue
     not?: InputJsonValue
+  }
+
+  export type NestedDateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
   }
 
 

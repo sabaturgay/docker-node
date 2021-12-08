@@ -36038,7 +36038,6 @@ var LibraryEngine = /* @__PURE__ */ __name(class extends Engine {
   constructor(config2) {
     super();
     var _a2, _b2;
-    console.log('B', config2)
     this.datamodel = import_fs.default.readFileSync(config2.datamodelPath, "utf-8");
     this.config = config2;
     this.libraryStarted = false;
@@ -39137,7 +39136,6 @@ var aggregateKeys = {
   _max: true
 };
 function getPrismaClient(config2) {
-  // console.log('A', config2)
   class PrismaClient {
     constructor(optionsArg) {
       var _a2, _b2, _c, _d, _e, _f, _g;
