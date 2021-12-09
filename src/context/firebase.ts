@@ -1,7 +1,7 @@
 import * as admin from 'firebase-admin'
 import { params } from '@serverless'
 
-const serviceAccount = JSON.parse(params.FIREBASE_ADMIN_CONFIG)
+const serviceAccount = params.FIREBASE_ADMIN_CONFIG
 
 export const firebaseAdmin = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
