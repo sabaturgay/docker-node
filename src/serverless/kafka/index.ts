@@ -1,8 +1,8 @@
 import { Kafka } from 'kafkajs'
 import { params } from '@serverless/params'
-import * as R from 'colay/ramda'
+// import * as R from 'colay/ramda'
 
-const CLIENT_ID = R.uuid()
+const CLIENT_ID = 'node-app'// R.uuid()
 
 const kafka = new Kafka({
   clientId: CLIENT_ID,
