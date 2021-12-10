@@ -7,13 +7,20 @@ import _resolvers from './graphql/resolvers'
 import _typeDefs from './graphql/typeDefs'
 import { applyMiddleware } from 'graphql-middleware'
 import extendResolvers from './extend/resolvers'
-import extendTypeDefs from './extend/typeDefs'
+// import extendTypeDefs from './extend/typeDefs'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { mergeTypeDefs } from '@graphql-tools/merge'
 import * as R from 'colay/ramda'
 import * as directives from './directives'
-
+import glob from 'glob'
+import fs from 'fs'
 import { Context, createContext } from './context'
+import gql from 'graphql-tag'
+
+const gqlFiles = glob.sync('**/*.gql', { absolute: true })
+const extendTypeDefs = gqlFiles
+  .map((file) => fs.readFileSync(file, 'utf8'))
+  .map((gqlText) => gql(gqlText))
 
 const directiveTypeDefs = Object.values(directives)
   .map((directive) => directive.definition)

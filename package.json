@@ -28,6 +28,7 @@
     "expo-server-sdk": "3.6.0",
     "express": "4.17.1",
     "firebase-admin": "10.0.0",
+    "glob": "7.2.0",
     "graphql": "15.5.1",
     "graphql-middleware": "6.0.10",
     "graphql-tag": "2.12.6",
@@ -47,6 +48,7 @@
   },
   "devDependencies": {
     "@paljs/cli": "4.0.12",
+    "@playlyfe/gql": "2.6.2",
     "@types/cron": "1.7.3",
     "@types/jsonwebtoken": "8.5.6",
     "@types/passport": "1.0.7",
