@@ -1,12 +1,12 @@
 import { MongoClient } from 'mongodb'
 import { params } from '@serverless'
+
 // Connection URI
 const URI = params.DATABASE_URL
+
 // Create a new MongoClient
 export const dbClient = new MongoClient(URI)
-// let dbRef = {
-//   current: null
-// }
+
 async function run() {
   await dbClient.connect()
   await dbClient.db('admin').command({ ping: 1 })

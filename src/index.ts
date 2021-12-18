@@ -5,12 +5,9 @@ import {
   app,
   guest,
   params,
-  data,
-  scheduler,
 } from '@serverless'
 import './rest'
-import { firebaseAdmin } from '@context/firebase'
-// import { updateUserAttributes } from '@cloud'
+import { firebaseAdmin } from '@api/firebase'
 
 graphqlServer.start().then(() => {
   // @ts-ignore
@@ -27,7 +24,6 @@ if (params.AUTH_ENABLED) {
       const user = await firebaseAdmin
         .auth()
         .getUser(decodedToken.uid)
-      // await updateUserAttributes(user.uid, { roles: ['admin'] })
       // console.log('DECODED_TOKEN', user)
       req.user = user
     } catch (error) {

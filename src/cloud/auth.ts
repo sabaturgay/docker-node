@@ -1,4 +1,4 @@
-import { firebaseAdmin } from '@context/firebase'
+import { firebaseAdmin } from '@api/firebase'
 
 export const updateUserAttributes = async (uid: string, data: any) => {
   await firebaseAdmin

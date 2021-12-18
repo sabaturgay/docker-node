@@ -37,10 +37,12 @@ type TTLRowData = {
   data: RowData;
 }
 
+const TTL_MANAGER_INTERVAL = '600 milliseconds'
+
 const cacheManager = {
   records: initialValue as any[],
   ttlManager: {
-    interval: '600 milliseconds',
+    interval: TTL_MANAGER_INTERVAL,
     records: [] as TTLRowData[],
     add: (data: RowData, ttl: number) => {
       const now = new Date()

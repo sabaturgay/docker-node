@@ -1,4 +1,5 @@
-import User from './User/resolvers'
-import Comment from './Comment/resolvers'
-import Post from './Post/resolvers'
-export default [Post, Comment, User]
+import PrismaResolvers from './prisma/resolvers'
+import Default from './Default/resolvers'
+import Notifications from './Notifications/resolvers'
+
+export default [...PrismaResolvers, Default, Notifications]

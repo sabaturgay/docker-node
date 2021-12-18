@@ -24,7 +24,7 @@ export const consumer = kafka.consumer({ groupId: 'test-group' })
 const run = async () => {
   // Producing
   await producer.connect()
-  console.log('Producer connected')
+  console.log('Kafka Producer connected')
   await producer.send({
     topic: 'test-topic',
     messages: [
@@ -34,7 +34,7 @@ const run = async () => {
 
   // Consuming
   await consumer.connect()
-  console.log('Consumer connected')
+  console.log('Kafka Consumer connected')
   await consumer.subscribe({ topic: 'test-topic', fromBeginning: true })
   await consumer.subscribe({ topic: 'user-created', fromBeginning: true })
   await consumer.subscribe({ topic: 'user-deleted', fromBeginning: true })

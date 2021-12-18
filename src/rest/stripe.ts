@@ -1,11 +1,11 @@
-import { stripe } from '../context/stripe'
-import { prisma } from '../context/prisma'
+import { stripe } from '@api/stripe'
+import { prisma } from '@api/prisma'
 import {
   api,
   guest,
   params,
 } from '@serverless'
-import { updateUserAttributes } from '@utils/firebase'
+import { updateUserAttributes } from '@cloud'
 // import * as R from 'colay/ramda';
 
 guest.get('/userCreated', async (req, res) => {

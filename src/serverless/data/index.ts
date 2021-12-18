@@ -8,3 +8,4 @@ prisma.$connect()
 export const data = prisma.dataItem
 
 export const dataPrisma = prisma
+

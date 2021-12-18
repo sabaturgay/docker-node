@@ -6,12 +6,7 @@ import {
 } from 'expo-server-sdk'
 
 const resolvers: Resolvers = {
-  Query: {
-    extend: async (_parent, args, { prisma }) => {
-      console.log('Extend')
-      return 'extend'
-    },
-  },
+  Query: {},
   Mutation: {
     sendNotifications: async (_parent, args, { expo, IS_DEV }) => {
       const {

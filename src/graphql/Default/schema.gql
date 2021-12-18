@@ -1,9 +1,9 @@
 type Query {
-  extend: String
+  default: String
 }
 
 type Mutation {
-  extend: String
+  default: String
 }
 
 scalar JSON

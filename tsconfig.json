@@ -43,11 +43,17 @@
 			"@assets/*": [
 				"./src/assets/*"
 			],
+			"@api/*": [
+				"./src/api/*"
+			],
+			"@api": [
+				"./src/api"
+			],
 			"@context/*": [
-				"./src/context/*"
+				"./src/graphql/context/*"
 			],
 			"@context": [
-				"./src/context"
+				"./src/graphql/context"
 			],
 			"@type": [
 				"./src/type"

@@ -3,7 +3,7 @@ import { params } from '@serverless'
 
 export const verifyJWT = (token: string) => jwt.verify(
   token,
-  paramsJWT_PUBLIC,
+  params.JWT_PUBLIC,
   { algorithms: ['RS256', 'none'] },
 )
 
