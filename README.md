@@ -13,7 +13,7 @@ This starter kit created for Node.js apps. It uses opinionated packages and arch
 - Graphql: API
 
 
-## Serverless
+## @serverless
 I have created bunch of ready to use opinionated services for common use. I have inspired by serverless-cloud. Here is the services:
 - cache: in-memory cache ; each instance has it owns isolated cache
 - data: mongodb backed single collection designed ORM
