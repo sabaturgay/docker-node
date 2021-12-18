@@ -27,3 +27,5 @@ service-account-credentials.json
 **/tsconfig-compile.json
 
 yarn-error.log
+
+docker.build.log

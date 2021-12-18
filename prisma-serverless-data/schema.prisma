@@ -1,0 +1,19 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("SERVERLESS_DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["mongoDb"]
+  binaryTargets   = ["native", "rhel-openssl-1.0.x"]
+  output          = "../node_modules/@prisma/serverless-data-client"
+}
+
+model DataItem {
+  id   String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  body Json
+  tags String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

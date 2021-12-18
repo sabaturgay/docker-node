@@ -10,13 +10,16 @@ COPY . .
 
 CMD [ "ls" ]
 
-RUN npm install
+# RUN npm install yarn -g
+RUN yarn global add  pm2 -g
+
+RUN yarn
 
 # If you are building your code for production
 # RUN npm ci --only=production
 
 # Bundle app source
-RUN npm run build
+RUN yarn build
 
 EXPOSE 8080
-CMD [ "npm", "run", "start" ]
+CMD [ "yarn", "start:pm2"]

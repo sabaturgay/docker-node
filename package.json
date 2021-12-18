@@ -10,11 +10,14 @@
   "scripts": {
     "dev": "ts-node-dev --project tsconfig.json --no-notify -r tsconfig-paths/register --respawn --transpile-only src/index.ts",
     "start": "node dist/index.js",
+    "start:pm2": "pm2-runtime start npm --name \"docker-node\" -- run \"start\"",
+    "start:docker": "docker run -p 8080:8080 -d turgaysaba/node-app",
     "type-check": "tsc --noEmit",
     "build": "rm -rf dist && yarn build:js",
+    "build:docker": "docker build . -t turgaysaba/node-app | tee docker.build.log",
     "build:js": "babel src -d dist --extensions \".js,.jsx,.ts,.tsx\" --copy-files",
-    "postinstall": "pal g && prisma generate",
-    "prisma": "pal g && prisma generate"
+    "postinstall": "yarn prisma",
+    "prisma": "pal g && prisma generate && prisma generate --schema ./prisma-serverless-data/schema.prisma"
   },
   "dependencies": {
     "@graphql-tools/merge": "6.2.14",
