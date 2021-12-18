@@ -16,7 +16,7 @@ export default gql`
     ): [Comment!]!
     user: User!
     userId: String!
-    _count: PostCountOutputType
+    _count: PostCountOutputType!
   }
 
   type Query {

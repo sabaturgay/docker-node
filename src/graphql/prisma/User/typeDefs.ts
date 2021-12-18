@@ -18,7 +18,7 @@ export default gql`
       skip: Int
       distinct: PostScalarFieldEnum
     ): [Post!]!
-    _count: UserCountOutputType
+    _count: UserCountOutputType!
   }
 
   type Query {

@@ -47,7 +47,7 @@ export interface Post {
   comments?: Resolver<Client.Post, PostCommentsArgs, Client.Comment[] | null>
   user?: Resolver<Client.Post, {}, Client.User>
   userId?: Resolver<Client.Post, {}, string>
-  _count?: Resolver<Client.Post, {}, Client.Prisma.PostCountOutputType | null>
+  _count?: Resolver<Client.Post, {}, Client.Prisma.PostCountOutputType>
 }
 
 export interface Comment {
@@ -69,7 +69,7 @@ export interface User {
   phoneNumber?: Resolver<Client.User, {}, string | null>
   photoURL?: Resolver<Client.User, {}, string | null>
   posts?: Resolver<Client.User, UserPostsArgs, Client.Post[] | null>
-  _count?: Resolver<Client.User, {}, Client.Prisma.UserCountOutputType | null>
+  _count?: Resolver<Client.User, {}, Client.Prisma.UserCountOutputType>
 }
 
 export interface Query {
@@ -1194,10 +1194,10 @@ export interface CommentUpdateManyWithoutPostInput {
   connectOrCreate?: CommentCreateOrConnectWithoutPostInput[]
   upsert?: CommentUpsertWithWhereUniqueWithoutPostInput[]
   createMany?: CommentCreateManyPostInputEnvelope
-  connect?: CommentWhereUniqueInput[]
   set?: CommentWhereUniqueInput[]
   disconnect?: CommentWhereUniqueInput[]
   delete?: CommentWhereUniqueInput[]
+  connect?: CommentWhereUniqueInput[]
   update?: CommentUpdateWithWhereUniqueWithoutPostInput[]
   updateMany?: CommentUpdateManyWithWhereWithoutPostInput[]
   deleteMany?: CommentScalarWhereInput[]
@@ -1216,10 +1216,10 @@ export interface CommentUncheckedUpdateManyWithoutPostInput {
   connectOrCreate?: CommentCreateOrConnectWithoutPostInput[]
   upsert?: CommentUpsertWithWhereUniqueWithoutPostInput[]
   createMany?: CommentCreateManyPostInputEnvelope
-  connect?: CommentWhereUniqueInput[]
   set?: CommentWhereUniqueInput[]
   disconnect?: CommentWhereUniqueInput[]
   delete?: CommentWhereUniqueInput[]
+  connect?: CommentWhereUniqueInput[]
   update?: CommentUpdateWithWhereUniqueWithoutPostInput[]
   updateMany?: CommentUpdateManyWithWhereWithoutPostInput[]
   deleteMany?: CommentScalarWhereInput[]
@@ -1262,10 +1262,10 @@ export interface PostUpdateManyWithoutUserInput {
   connectOrCreate?: PostCreateOrConnectWithoutUserInput[]
   upsert?: PostUpsertWithWhereUniqueWithoutUserInput[]
   createMany?: PostCreateManyUserInputEnvelope
-  connect?: PostWhereUniqueInput[]
   set?: PostWhereUniqueInput[]
   disconnect?: PostWhereUniqueInput[]
   delete?: PostWhereUniqueInput[]
+  connect?: PostWhereUniqueInput[]
   update?: PostUpdateWithWhereUniqueWithoutUserInput[]
   updateMany?: PostUpdateManyWithWhereWithoutUserInput[]
   deleteMany?: PostScalarWhereInput[]
@@ -1276,10 +1276,10 @@ export interface PostUncheckedUpdateManyWithoutUserInput {
   connectOrCreate?: PostCreateOrConnectWithoutUserInput[]
   upsert?: PostUpsertWithWhereUniqueWithoutUserInput[]
   createMany?: PostCreateManyUserInputEnvelope
-  connect?: PostWhereUniqueInput[]
   set?: PostWhereUniqueInput[]
   disconnect?: PostWhereUniqueInput[]
   delete?: PostWhereUniqueInput[]
+  connect?: PostWhereUniqueInput[]
   update?: PostUpdateWithWhereUniqueWithoutUserInput[]
   updateMany?: PostUpdateManyWithWhereWithoutUserInput[]
   deleteMany?: PostScalarWhereInput[]
