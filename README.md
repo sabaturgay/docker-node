@@ -1,6 +1,6 @@
 # A Docker wrapped Node.js app starter for microservices or monoliths
 
-This starter kit created for Node.js apps. It uses opinionated packages and architecture. It has rest, graphql, socket and more capabilities. Here is used packages and technologies:
+This starter kit is created for Node.js apps. It uses opinionated packages and architecture. It has rest, graphql, socket and more capabilities. Here is used packages and technologies:
 
 - Prisma v2: ORM for communicating with MongoDB
 - Pal.js: convert prisma queries to graphql api
