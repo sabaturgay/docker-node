@@ -79,7 +79,6 @@
 		"src/**/*"
 	],
 	"exclude": [
-		"node_modules",
-		"src/run/**/*"
+		"node_modules"
 	]
 }

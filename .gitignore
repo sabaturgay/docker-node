@@ -29,3 +29,5 @@ service-account-credentials.json
 yarn-error.log
 
 docker.build.log
+
+_old/
